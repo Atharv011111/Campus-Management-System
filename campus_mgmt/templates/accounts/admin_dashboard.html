@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Campus Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2><i class="fas fa-cogs"></i> Admin Dashboard</h2>
+        <p class="lead">Welcome back, {{ user.get_full_name|default:user.username }}!</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center bg-primary text-white">
+            <div class="card-body">
+                <i class="fas fa-book fa-2x mb-2"></i>
+                <h5>{{ total_courses }}</h5>
+                <p>Total Courses</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center bg-success text-white">
+            <div class="card-body">
+                <i class="fas fa-user-graduate fa-2x mb-2"></i>
+                <h5>{{ total_enrollments }}</h5>
+                <p>Total Enrollments</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center bg-info text-white">
+            <div class="card-body">
+                <i class="fas fa-tasks fa-2x mb-2"></i>
+                <h5>{{ total_submissions }}</h5>
+                <p>Total Submissions</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center bg-warning text-dark">
+            <div class="card-body">
+                <i class="fas fa-users fa-2x mb-2"></i>
+                <h5>Active</h5>
+                <p>System Status</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">System Management</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-cog fa-3x text-primary mb-3"></i>
+                                <h6 class="card-title">Admin Panel</h6>
+                                <p class="card-text">Access Django admin panel for complete system management.</p>
+                                <a href="/admin/" class="btn btn-primary">Open Admin</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-plus fa-3x text-success mb-3"></i>
+                                <h6 class="card-title">Create Course</h6>
+                                <p class="card-text">Create new courses for the upcoming semester.</p>
+                                <a href="{% url 'courses:course_create' %}" class="btn btn-success">Create Course</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-list fa-3x text-info mb-3"></i>
+                                <h6 class="card-title">View All Courses</h6>
+                                <p class="card-text">Browse and manage all courses in the system.</p>
+                                <a href="{% url 'courses:course_list' %}" class="btn btn-info">View Courses</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

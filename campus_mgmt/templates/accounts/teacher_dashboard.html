@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Teacher Dashboard - Campus Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2><i class="fas fa-chalkboard-teacher"></i> Teacher Dashboard</h2>
+        <p class="lead">Welcome back, {{ user.get_full_name|default:user.username }}!</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center bg-primary text-white">
+            <div class="card-body">
+                <i class="fas fa-book fa-2x mb-2"></i>
+                <h5>{{ courses.count }}</h5>
+                <p>My Courses</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center bg-success text-white">
+            <div class="card-body">
+                <i class="fas fa-users fa-2x mb-2"></i>
+                <h5>
+                    {% for course in courses %}
+                        {{ course.enrolled_count }}{% if not forloop.last %}+{% endif %}
+                    {% empty %}0{% endfor %}
+                </h5>
+                <p>Total Students</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center bg-info text-white">
+            <div class="card-body">
+                <i class="fas fa-tasks fa-2x mb-2"></i>
+                <h5>
+                    {% for course in courses %}
+                        {{ course.assignments.count }}{% if not forloop.last %}+{% endif %}
+                    {% empty %}0{% endfor %}
+                </h5>
+                <p>Total Assignments</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">My Courses</h5>
+                <a href="{% url 'courses:course_create' %}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"></i> New Course
+                </a>
+            </div>
+            <div class="card-body">
+                {% if courses %}
+                    {% for course in courses %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h6 class="card-title">{{ course.title }}</h6>
+                                        <p class="card-text text-muted">
+                                            <i class="fas fa-users"></i> {{ course.enrolled_count }} enrolled<br>
+                                            <i class="fas fa-calendar"></i> {{ course.start_date }} - {{ course.end_date }}<br>
+                                            <i class="fas fa-tasks"></i> {{ course.assignments.count }} assignments
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <a href="{% url 'courses:course_detail' course.pk %}" class="btn btn-primary btn-sm mb-1">
+                                            View Course
+                                        </a><br>
+                                        <a href="{% url 'courses:course_update' course.pk %}" class="btn btn-outline-secondary btn-sm">
+                                            Edit
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">You haven't created any courses yet.</p>
+                    <a href="{% url 'courses:course_create' %}" class="btn btn-primary">Create Your First Course</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'courses:course_create' %}" class="btn btn-outline-primary w-100 mb-2">
+                    <i class="fas fa-plus"></i> Create Course
+                </a>
+                <a href="{% url 'courses:course_list' %}" class="btn btn-outline-secondary w-100 mb-2">
+                    <i class="fas fa-list"></i> All Courses
+                </a>
+                <a href="{% url 'accounts:profile' %}" class="btn btn-outline-info w-100">
+                    <i class="fas fa-user"></i> Edit Profile
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

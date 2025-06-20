@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Submission Detail - Campus Management System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Submission Details</h4>
+                <small class="text-muted">{{ submission.assignment.title }} by {{ submission.student.get_full_name|default:submission.student.username }}</small>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <strong>Student:</strong> {{ submission.student.get_full_name|default:submission.student.username }}
+                    </div>
+                    <div class="col-sm-6">
+                        <strong>Assignment:</strong> {{ submission.assignment.title }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <strong>Submitted:</strong> {{ submission.submitted_at }}
+                    </div>
+                    <div class="col-sm-6">
+                        <strong>Due Date:</strong> {{ submission.assignment.due_date }}
+                    </div>
+                </div>
+                
+                {% if submission.file %}
+                    <div class="mb-3">
+                        <strong>File:</strong> {{ submission.filename }}
+                        <a href="{{ submission.file.url }}" class="btn btn-outline-primary btn-sm ms-2" target="_blank">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                {% endif %}
+                
+                {% if submission.content %}
+                    <div class="mb-3">
+                        <strong>Text Submission:</strong>
+                        <div class="border p-3 mt-2 bg-light">
+                            {{ submission.content|linebreaks }}
+                        </div>
+                    </div>
+                {% endif %}
+                
+                <div class="mt-4">
+                    <a href="{% url 'courses:grade_assignment' submission.assignment.pk submission.student.pk %}" class="btn btn-success">
+                        <i class="fas fa-star"></i> Grade This Submission
+                    </a>
+                    <a href="{% url 'submissions:submission_list' submission.assignment.pk %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Submission Info</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><strong>Course:</strong> {{ submission.assignment.course.title }}</li>
+                    <li><strong>Assignment:</strong> {{ submission.assignment.title }}</li>
+                    <li><strong>Max Marks:</strong> {{ submission.assignment.max_marks }}</li>
+                    <li><strong>Due Date:</strong> {{ submission.assignment.due_date }}</li>
+                    <li><strong>Status:</strong>
+                        {% if submission.submitted_at > submission.assignment.due_date %}
+                            <span class="badge bg-warning">Late Submission</span>
+                        {% else %}
+                            <span class="badge bg-success">On Time</span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
