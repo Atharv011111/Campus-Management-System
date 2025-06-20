@@ -1,4 +1,4 @@
-# Campus Management System (Django Full Stack)
+# Campus Management System (Django )
 
 A Django-based web application to manage students, teachers, courses, enrollments, results, and more. Includes admin panel, APIs, and email support.
 
